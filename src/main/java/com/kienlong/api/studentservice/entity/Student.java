@@ -11,13 +11,15 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "students")
-public class Student {
+public class Student extends Auditable<String> {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@Column(nullable = false, length = 30)
 	private String name;
+
+	private String address;
 
 	public Student() {
 	}
@@ -53,6 +55,14 @@ public class Student {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.kienlong.api.studentservice.controller;
 import java.util.List;
 
 import com.kienlong.api.studentservice.entity.Student;
-import com.kienlong.api.studentservice.repo.StudentRepository;
+import com.kienlong.api.studentservice.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 
 @RestController
@@ -31,17 +28,12 @@ import jakarta.validation.constraints.Positive;
 public class StudentApiController {
 
     @Autowired
-    StudentRepository repo;
+    StudentService studentService;
 
     @GetMapping
-    public ResponseEntity<?> list(@RequestParam
-                                  @Min(value = 10, message = "Page size min is 10")
-                                  @Max(value = 50, message = "Page size max is 50") Integer pageSize,
-                                  @Positive(message = "Page number must greater than zero") Integer pageNum) {
-        System.out.println("Page size = " + pageSize);
-        System.out.println("Page number = " + pageNum);
+    public ResponseEntity<?> list() {
 
-        List<Student> listStudents = repo.findAll();
+        List<Student> listStudents = studentService.listStudent();
         if (listStudents.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -50,34 +42,28 @@ public class StudentApiController {
 
     @PostMapping
     public ResponseEntity<Student> add(@RequestBody Student student) {
+        Student addedStudent = studentService.addStudent(student);
 
-        repo.save(student);
-
-        return new ResponseEntity<>(student, HttpStatus.CREATED);
+        return new ResponseEntity<>(addedStudent, HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Student> replace(@RequestBody Student student) {
 
-        if (repo.existsById(student.getId())) {
+    Student updatedStudent = studentService.updateStudent(student);
 
-            repo.save(student);
-
-            return new ResponseEntity<>(student, HttpStatus.OK);
+        if (updatedStudent != null) {
+            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }
-
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('write')")
     public ResponseEntity<?> delete(@PathVariable @Positive Integer id) {
 
-        if (repo.existsById(id)) {
-
-            repo.deleteById(id);
-
+        if (studentService.deleteStudent(id)) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();

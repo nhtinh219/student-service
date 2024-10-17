@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kienlong.api</groupId>
-    <artifactId>StudentService</artifactId>
+    <artifactId>StudentApp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>StudentService</name>
     <description>StudentService</description>
