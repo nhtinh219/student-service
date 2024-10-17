@@ -51,9 +51,7 @@ public class JwtUtilityTests {
 
     @Test
     public void testValidateFail() {
-        assertThrows(JwtValidationException.class, () -> {
-            jwtUtil.validateAccessToken("a.b.c");
-        });
+        assertThrows(JwtValidationException.class, () -> jwtUtil.validateAccessToken("a.b.c"));
     }
 
     @Test

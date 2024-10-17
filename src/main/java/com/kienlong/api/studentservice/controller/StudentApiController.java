@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.kienlong.api.studentservice.entity.Student;
 import com.kienlong.api.studentservice.repo.StudentRepository;
-import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +53,7 @@ public class StudentApiController {
 
         repo.save(student);
 
-        return new ResponseEntity<Student>(student, HttpStatus.CREATED);
+        return new ResponseEntity<>(student, HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -64,7 +63,7 @@ public class StudentApiController {
 
             repo.save(student);
 
-            return new ResponseEntity<Student>(student, HttpStatus.OK);
+            return new ResponseEntity<>(student, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }

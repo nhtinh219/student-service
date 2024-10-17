@@ -74,9 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
 
-        fieldErrors.forEach(fieldError -> {
-            error.addError(fieldError.getField() + ": " + fieldError.getDefaultMessage());
-        });
+        fieldErrors.forEach(fieldError -> error.addError(fieldError.getField() + ": " + fieldError.getDefaultMessage()));
 
         return new ResponseEntity<>(error, headers, status);
     }
