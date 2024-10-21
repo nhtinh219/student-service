@@ -40,6 +40,16 @@ public class StudentApiController {
         return new ResponseEntity<>(listStudents, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> get(@PathVariable("id") @Positive Integer id) {
+        Student student = studentService.getStudent(id);
+
+        if (student != null) {
+            return new ResponseEntity<>(student, HttpStatus.OK);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping
     public ResponseEntity<Student> add(@RequestBody Student student) {
         Student addedStudent = studentService.addStudent(student);
@@ -50,7 +60,7 @@ public class StudentApiController {
     @PutMapping
     public ResponseEntity<Student> replace(@RequestBody Student student) {
 
-    Student updatedStudent = studentService.updateStudent(student);
+        Student updatedStudent = studentService.updateStudent(student);
 
         if (updatedStudent != null) {
             return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
@@ -61,7 +71,7 @@ public class StudentApiController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('write')")
-    public ResponseEntity<?> delete(@PathVariable @Positive Integer id) {
+    public ResponseEntity<?> delete(@PathVariable("id") @Positive Integer id) {
 
         if (studentService.deleteStudent(id)) {
             return ResponseEntity.noContent().build();

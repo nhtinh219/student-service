@@ -2,6 +2,8 @@ package com.kienlong.api.studentservice.security.jwt;
 
 import com.kienlong.api.studentservice.entity.User;
 import com.kienlong.api.studentservice.error.JwtValidationException;
+import com.kienlong.api.studentservice.i18n.MessageCode;
+import com.kienlong.api.studentservice.repo.UserRepository;
 import com.kienlong.api.studentservice.security.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -12,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +25,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Optional;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -29,6 +34,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     JwtUtility jwtUtility;
+
+    @Autowired
+    MessageSource messageSource;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     @Qualifier("handlerExceptionResolver")
@@ -46,11 +57,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         LOGGER.info("Token: " + token);
 
         try {
-            Claims claims = jwtUtility.validateAccessToken(token);
+            Claims claims = jwtUtility.validateAccessToken(token, request);
             UserDetails userDetails = getUserDetails(claims);
+
+            Locale locale = new Locale(request.getHeader("Accept-Language"));
+            if (!isUserExisted(userDetails)){ // Check if user still exist or not
+                String message = messageSource.getMessage(MessageCode.ERROR_BAD_CREDENTIALS.getCode(),null, locale);
+                throw new JwtValidationException(message);
+            }
 
             setAuthenticationContext(userDetails, request);
 
+            // Continue filter chain
             filterChain.doFilter(request, response);
 
             clearAuthenticationContext();
@@ -59,6 +77,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
             exceptionResolver.resolveException(request, response, null, e);
         }
+    }
+
+    private boolean isUserExisted(UserDetails userDetails) {
+        Optional<User> userInDB = userRepository.findByUsername(userDetails.getUsername());
+        return userInDB.isPresent();
     }
 
     private void clearAuthenticationContext() {

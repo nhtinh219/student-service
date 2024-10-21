@@ -54,7 +54,7 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/api/oauth/**").permitAll()
+                                .requestMatchers("/api/oauth/**","/actuator/prometheus").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/students").hasAnyAuthority("read", "write")
                                 .requestMatchers(HttpMethod.POST, "/api/students").hasAnyAuthority("write")
                                 .requestMatchers(HttpMethod.PUT, "/api/students").hasAnyAuthority("write")

@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 public class RefreshTokenRequest {
-    @NotNull
-    @Length(min = 5, max = 20)
+    @NotNull(message = "{username.not-null}")
+    @Length(min = 5, max = 20, message = "{username.size}")
     private String username;
 
-    @NotNull
-    @Length(min = 36, max = 50)
+    @NotNull(message = "{refresh-token.not-null}")
+    @Length(min = 36, max = 50, message = "{refresh-token.size}")
     private String refreshToken;
 
     public String getUsername() {

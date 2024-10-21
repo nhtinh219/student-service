@@ -1,4 +1,4 @@
-package com.kienlong.api.studentservice.security.auth;
+package com.kienlong.api.studentservice.service;
 
 import java.util.Date;
 import java.util.List;
@@ -9,6 +9,8 @@ import com.kienlong.api.studentservice.error.RefreshTokenExpiredException;
 import com.kienlong.api.studentservice.error.RefreshTokenNotFoundException;
 import com.kienlong.api.studentservice.repo.RefreshTokenRepository;
 import com.kienlong.api.studentservice.entity.User;
+import com.kienlong.api.studentservice.security.auth.AuthResponse;
+import com.kienlong.api.studentservice.security.auth.RefreshTokenRequest;
 import com.kienlong.api.studentservice.security.jwt.JwtUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

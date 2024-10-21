@@ -1,17 +1,18 @@
 package com.kienlong.api.studentservice.security.auth;
 
+import com.kienlong.api.studentservice.i18n.MessageCode;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotNull;
 
 public class AuthRequest {
 
-    @NotNull
-    @Length(min = 5, max = 20)
+    @NotNull(message = "{username.not-null}")
+    @Length(min = 5, max = 20, message = "{username.size}")
     private String username;
 
-    @NotNull
-    @Length(min = 5, max = 10)
+    @NotNull(message = "{password.not-null}")
+    @Length(min = 5, max = 10, message = "{password.size}")
     private String password;
 
     public String getUsername() {

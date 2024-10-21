@@ -1,5 +1,6 @@
 package com.kienlong.api.studentservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -9,7 +10,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -21,13 +22,15 @@ public abstract class Auditable<U> {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    protected LocalDateTime createdDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    protected Date createdDate;
 
     @LastModifiedBy
     protected U lastModifiedBy;
 
     @LastModifiedDate
-    protected LocalDateTime lastModifiedDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    protected Date lastModifiedDate;
 
     public U getCreatedBy() {
         return createdBy;
@@ -37,11 +40,11 @@ public abstract class Auditable<U> {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -53,11 +56,11 @@ public abstract class Auditable<U> {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public LocalDateTime getLastModifiedDate() {
+    public Date getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+    public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 }

@@ -11,5 +11,7 @@ public class JwtValidationException extends Exception {
         super(message, cause);
     }
 
-
+    public JwtValidationException(String message) {
+        super(message);
+    }
 }

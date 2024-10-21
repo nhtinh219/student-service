@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.kienlong.api.studentservice.entity.User;
 import com.kienlong.api.studentservice.error.JwtValidationException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -51,7 +53,8 @@ public class JwtUtilityTests {
 
     @Test
     public void testValidateFail() {
-        assertThrows(JwtValidationException.class, () -> jwtUtil.validateAccessToken("a.b.c"));
+
+        assertThrows(JwtValidationException.class, () -> jwtUtil.validateAccessToken("a.b.c", null));
     }
 
     @Test
@@ -66,7 +69,7 @@ public class JwtUtilityTests {
         assertThat(token).isNotNull();
 
         assertDoesNotThrow(() -> {
-            jwtUtil.validateAccessToken(token);
+            jwtUtil.validateAccessToken(token, null);
         });
     }
 
