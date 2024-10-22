@@ -1,5 +1,6 @@
-package com.kienlong.api.studentservice.security;
+package com.kienlong.api.studentservice.config;
 
+import com.kienlong.api.studentservice.security.CustomUserDetailsService;
 import com.kienlong.api.studentservice.security.jwt.JwtTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired

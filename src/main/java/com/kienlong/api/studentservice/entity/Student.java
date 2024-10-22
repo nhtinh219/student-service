@@ -1,15 +1,19 @@
 package com.kienlong.api.studentservice.entity;
 
-import java.util.Objects;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "students")
 public class Student extends Auditable<String> {
 	
@@ -20,67 +24,4 @@ public class Student extends Auditable<String> {
 	private String name;
 
 	private String address;
-
-	public Student() {
-	}
-
-	public Student(String name) {
-		super();
-		this.name = name;
-	}
-	
-	public Student(Integer id) {
-		super();
-		this.id = id;
-	}
-	
-
-	public Student(Integer id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Student other = (Student) obj;
-		return Objects.equals(id, other.id);
-	}
-
-	
 }

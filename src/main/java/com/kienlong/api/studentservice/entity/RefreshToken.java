@@ -10,8 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Setter
+@Getter
 @Table(name = "refresh_tokens")
 public class RefreshToken {
 	
@@ -26,38 +30,4 @@ public class RefreshToken {
 	private User user;
 	
 	private Date expiryTime;
-
-	public Integer getId() {
-		return Id;
-	}
-
-	public void setId(Integer id) {
-		Id = id;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Date getExpiryTime() {
-		return expiryTime;
-	}
-
-	public void setExpiryTime(Date expiryTime) {
-		this.expiryTime = expiryTime;
-	}
-	
-	
 }

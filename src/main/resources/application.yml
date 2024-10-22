@@ -1,0 +1,10 @@
+server:
+  tomcat:
+    access-log:
+      enabled: true
+      directory: log
+      prefix: access_log
+      suffix: .log
+      file-date-format: .yyyy-MM-dd
+      pattern: '%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"'
+      request-attributes-enabled: true
